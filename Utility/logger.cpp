@@ -9,9 +9,8 @@ void Logger::restart_log(const char* logFile)
 
 	ctime_s(date, 26, &(now));
 	
-	std::string output = "GL_LOG local time: ";
+	std::string output = "--------------------------\nGL_LOG local time: ";
 	output += date;
-	output += "\n";
 
 	print_to_log(logFile, output.c_str());
 }

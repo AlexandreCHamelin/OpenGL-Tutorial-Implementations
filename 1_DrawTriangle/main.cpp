@@ -11,11 +11,15 @@
 
 void initTriangles();
 void glfw_error_callback(int error, const char* description);
+void glfw_window_size_callback(GLFWwindow* window, int width, int height);
 
 GLuint vao1 = 0;
 GLuint vbo1 = 0;
 GLuint vao2 = 0;
 GLuint vbo2 = 0;
+
+int g_gl_width = 800;
+int g_gl_height = 600;
 
 int main(int argc, char *argv[])
 {
@@ -24,10 +28,11 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES, 4); //Anti aliasing (4 passes)
 
 	//start logs
 	Logger::restart_log("log.txt");
-	std::string log = "Starting GLFW: \n";
+	std::string log = "Starting GLFW: ";
 	log += glfwGetVersionString();
 	log += "\n";
 	Logger::print_to_log("log.txt", log);
@@ -40,10 +45,19 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
-	
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-	//init window with 640x480 resolution
-	GLFWwindow * window = glfwCreateWindow(640, 480, "Tutorial 1: Draw a triangle", NULL, NULL);
+	//init window with primary monitor resolution
+	//Set these modes for a fullscreen window and don't for classic fullscreen:
+	/*glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);*/
+	//------------------------------------------------
+
+	//GLFWwindow * window = glfwCreateWindow(mode->width, mode->height, "Tutorial 1: Draw a triangle", monitor, NULL); //Fullscreen
+	GLFWwindow * window = glfwCreateWindow(800, 600, "Tutorial 1: Draw a triangle", NULL, NULL); //Not Fullscreen
 
 	//if window initialisation failed
 	if (!window)
@@ -54,6 +68,7 @@ int main(int argc, char *argv[])
 	}
 
 	glfwMakeContextCurrent(window);
+	glfwSetWindowSizeCallback(window, glfw_window_size_callback);
 
 	//start glew extension handler;
 	glewExperimental = GL_TRUE;
@@ -115,6 +130,8 @@ int main(int argc, char *argv[])
 	while (!glfwWindowShouldClose(window)) {
 		// wipe the drawing surface clear 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, g_gl_width, g_gl_height);
+
 		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 
 		glUseProgram(shader_programme1);
@@ -193,4 +210,13 @@ void glfw_error_callback(int error, const char* description)
 	errorText += "\n";
 
 	Logger::print_to_log("log.txt", errorText);
+}
+
+//Track window resize
+void glfw_window_size_callback(GLFWwindow* window, int width, int height)
+{
+	g_gl_width = width;
+	g_gl_height = height;
+
+	//update stuff here...
 }
