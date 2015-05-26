@@ -1,0 +1,6 @@
+Starting GLFW: 
+3.1.1 Win32 WGL VisualC
+GL_LOG local time: Tue May 26 13:10:01 2015
+
+Starting GLFW: 
+3.1.1 Win32 WGL VisualC
