@@ -10,8 +10,9 @@
 #include "logger.hpp"
 
 void initTriangles();
-void glfw_error_callback(int error, const char* description);
-void glfw_window_size_callback(GLFWwindow* window, int width, int height);
+void glfwErrorCallback(int error, const char* description);
+void glfwWindowSizeCallback(GLFWwindow* window, int width, int height);
+void logGlParams();
 
 GLuint vao1 = 0;
 GLuint vbo1 = 0;
@@ -31,16 +32,18 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_SAMPLES, 4); //Anti aliasing (4 passes)
 
 	//start logs
-	Logger::restart_log("log.txt");
-	Logger::print_to_log("log.txt", "Starting GLFW: %s \n", glfwGetVersionString());
-	glfwSetErrorCallback(glfw_error_callback);
-	glfw_error_callback(0, "test");
+	Logger::restartLog("log.txt");
+	glfwSetErrorCallback(glfwErrorCallback);
 
 	//start context
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Error, could not start GLFW3\n");
 		return 1;
+	}
+	else
+	{
+		fprintf(stderr, "GLFW initialized properly.");
 	}
 	
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -66,7 +69,7 @@ int main(int argc, char *argv[])
 	}
 
 	glfwMakeContextCurrent(window);
-	glfwSetWindowSizeCallback(window, glfw_window_size_callback);
+	glfwSetWindowSizeCallback(window, glfwWindowSizeCallback);
 
 	//start glew extension handler;
 	glewExperimental = GL_TRUE;
@@ -75,6 +78,10 @@ int main(int argc, char *argv[])
 	//get version info
 	const GLubyte * renderer = glGetString(GL_RENDERER);
 	const GLubyte * version = glGetString(GL_VERSION);
+
+	//Log informations
+	Logger::printToLog("log.txt", "Starting GLFW: %s \n", glfwGetVersionString());
+	logGlParams();
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -199,16 +206,65 @@ void initTriangles()
 }
 
 //Log errors
-void glfw_error_callback(int error, const char* description)
+void glfwErrorCallback(int error, const char* description)
 {
-	Logger::print_to_log("log.txt", "GLFW ERROR: code %i msg: %s \n", error, description);
+	Logger::printToLog("log.txt", "GLFW ERROR: code %i msg: %s \n", error, description);
 }
 
 //Track window resize
-void glfw_window_size_callback(GLFWwindow* window, int width, int height)
+void glfwWindowSizeCallback(GLFWwindow* window, int width, int height)
 {
 	g_gl_width = width;
 	g_gl_height = height;
 
 	//update stuff here...
 }
+
+void logGlParams() {
+	GLenum params[] =
+	{
+		GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
+		GL_MAX_CUBE_MAP_TEXTURE_SIZE,
+		GL_MAX_DRAW_BUFFERS,
+		GL_MAX_FRAGMENT_UNIFORM_COMPONENTS,
+		GL_MAX_TEXTURE_IMAGE_UNITS,
+		GL_MAX_TEXTURE_SIZE,
+		GL_MAX_VARYING_FLOATS,
+		GL_MAX_VERTEX_ATTRIBS,
+		GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,
+		GL_MAX_VERTEX_UNIFORM_COMPONENTS,
+		GL_MAX_VIEWPORT_DIMS, GL_STEREO,
+	};
+	const char* names[] =
+	{
+		"GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS",
+		"GL_MAX_CUBE_MAP_TEXTURE_SIZE",
+		"GL_MAX_DRAW_BUFFERS",
+		"GL_MAX_FRAGMENT_UNIFORM_COMPONENTS",
+		"GL_MAX_TEXTURE_IMAGE_UNITS",
+		"GL_MAX_TEXTURE_SIZE",
+		"GL_MAX_VARYING_FLOATS",
+		"GL_MAX_VERTEX_ATTRIBS",
+		"GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS",
+		"GL_MAX_VERTEX_UNIFORM_COMPONENTS",
+		"GL_MAX_VIEWPORT_DIMS",
+		"GL_STEREO",
+	};
+
+	Logger::printToLog("log.txt", "GL Context Params: \n");
+	// integers - only works if the order is 0-10 integer return types 
+	for (int i = 0; i < 10; i++)
+	{
+		int v = 0;
+		glGetIntegerv(params[i], &v); 
+		Logger::printToLog("log.txt", "%s %i \n", names[i], v);
+	}
+	// others 
+	int v[2]; v[0] = v[1] = 0;
+	glGetIntegerv(params[10], v);
+	Logger::printToLog("log.txt", "%s %i %i \n", names[10], v[0], v[1]);
+	unsigned char s = 0; glGetBooleanv(params[11], &s);
+	Logger::printToLog("log.txt", "%s %u \n", names[11], (unsigned int)s);
+	Logger::printToLog("log.txt", "-----------------------------\n");
+}
+

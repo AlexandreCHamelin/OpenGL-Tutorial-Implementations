@@ -2,17 +2,17 @@
 #include <time.h>
 #include <stdarg.h>
 
-void Logger::restart_log(const char* logFile)
+void Logger::restartLog(const char* logFile)
 {
 	time_t now = time(0); //Get current time
 	char date[26];
 
 	ctime_s(date, 26, &(now));
 
-	print_to_log(logFile, "--------------------------\nGL_LOG local time: %s", date);
+	printToLog(logFile, "-----------------------------\nGL_LOG local time: %s", date);
 }
 
-bool Logger::print_to_log(const char* logFile, const char* text, ...)
+bool Logger::printToLog(const char* logFile, const char* text, ...)
 {
 	va_list argptr;
 	errno_t err;

@@ -6,8 +6,8 @@
 class Logger
 {
 public:
-	static void restart_log(const char* logFile);
-	static bool print_to_log(const char* logFile, const char* text, ...);
+	static void restartLog(const char* logFile);
+	static bool printToLog(const char* logFile, const char* text, ...);
 };
 
 #endif
