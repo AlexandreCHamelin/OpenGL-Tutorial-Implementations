@@ -13,6 +13,7 @@ void initTriangles();
 void glfwErrorCallback(int error, const char* description);
 void glfwWindowSizeCallback(GLFWwindow* window, int width, int height);
 void logGlParams();
+void updateFpsCounter(GLFWwindow* window);
 
 GLuint vao1 = 0;
 GLuint vbo1 = 0;
@@ -21,6 +22,9 @@ GLuint vbo2 = 0;
 
 int g_gl_width = 800;
 int g_gl_height = 600;
+
+double previousSeconds;
+int  frameCount;
 
 int main(int argc, char *argv[])
 {
@@ -133,6 +137,8 @@ int main(int argc, char *argv[])
 	glLinkProgram(shader_programme2);
 
 	while (!glfwWindowShouldClose(window)) {
+		updateFpsCounter(window);
+
 		// wipe the drawing surface clear 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, g_gl_width, g_gl_height);
@@ -155,6 +161,11 @@ int main(int argc, char *argv[])
 		glfwPollEvents();
 		// put the stuff we've been drawing onto the display 
 		glfwSwapBuffers(window);
+
+		if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_ESCAPE)) 
+		{
+			glfwSetWindowShouldClose(window, 1);
+		}
 	}
 
 	//close gl context and other glfw resources
@@ -268,3 +279,24 @@ void logGlParams() {
 	Logger::printToLog("log.txt", "-----------------------------\n");
 }
 
+void updateFpsCounter(GLFWwindow* window)
+{
+	double currentSeconds;
+	double elapsedSeconds;
+
+	currentSeconds = glfwGetTime();
+	elapsedSeconds = currentSeconds - previousSeconds;
+
+	/*Limit text updates to 4 per second*/
+	if (elapsedSeconds > 0.25)
+	{
+		previousSeconds = currentSeconds;
+		char tmp[128];
+		double fps = (double)frameCount / elapsedSeconds;
+		sprintf_s(tmp, "Tutorial 1: Draw a triangle - fps: %.2f", fps);
+		glfwSetWindowTitle(window, tmp);
+		frameCount = 0;
+	}
+
+	frameCount++;
+}

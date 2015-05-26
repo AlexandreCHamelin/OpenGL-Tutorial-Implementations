@@ -6,7 +6,7 @@
 class Logger
 {
 public:
-	static void restartLog(const char* logFile);
+	static bool restartLog(const char* logFile);
 	static bool printToLog(const char* logFile, const char* text, ...);
 };
 
