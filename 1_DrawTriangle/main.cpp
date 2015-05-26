@@ -32,11 +32,9 @@ int main(int argc, char *argv[])
 
 	//start logs
 	Logger::restart_log("log.txt");
-	std::string log = "Starting GLFW: ";
-	log += glfwGetVersionString();
-	log += "\n";
-	Logger::print_to_log("log.txt", log);
+	Logger::print_to_log("log.txt", "Starting GLFW: %s \n", glfwGetVersionString());
 	glfwSetErrorCallback(glfw_error_callback);
+	glfw_error_callback(0, "test");
 
 	//start context
 	if (!glfwInit())
@@ -203,13 +201,7 @@ void initTriangles()
 //Log errors
 void glfw_error_callback(int error, const char* description)
 {
-	std::string errorText = "GLFW ERROR: code ";
-	errorText += std::to_string(error);
-	errorText += " msg: ";
-	errorText += description;
-	errorText += "\n";
-
-	Logger::print_to_log("log.txt", errorText);
+	Logger::print_to_log("log.txt", "GLFW ERROR: code %i msg: %s \n", error, description);
 }
 
 //Track window resize

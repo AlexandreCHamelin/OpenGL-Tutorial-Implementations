@@ -1,6 +1,6 @@
 #include "logger.hpp"
-#include <fstream>
 #include <time.h>
+#include <stdarg.h>
 
 void Logger::restart_log(const char* logFile)
 {
@@ -8,20 +8,26 @@ void Logger::restart_log(const char* logFile)
 	char date[26];
 
 	ctime_s(date, 26, &(now));
-	
-	std::string output = "--------------------------\nGL_LOG local time: ";
-	output += date;
 
-	print_to_log(logFile, output.c_str());
+	print_to_log(logFile, "--------------------------\nGL_LOG local time: %s", date);
 }
 
-void Logger::print_to_log(const char* logFile, std::string text)
+bool Logger::print_to_log(const char* logFile, const char* text, ...)
 {
-	//initialise ofstream
-	std::ofstream outputStream(logFile, std::ios::app);
+	va_list argptr;
+	errno_t err;
 
-	//write to log file
-	outputStream << text;
+	FILE* file;
+	err = fopen_s(&file, logFile, "a");
+	if (!file)
+	{
+		fprintf(stderr, "ERROR: could not open GL_LOG_FILE %s file for appending\ n", logFile);
+		return false;
+	}
 
-	outputStream.close();
+	va_start(argptr, text);
+	vfprintf(file, text, argptr);
+	va_end(argptr);
+	fclose(file);
+	return true;
 }
