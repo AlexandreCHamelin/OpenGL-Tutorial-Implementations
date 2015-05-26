@@ -19,6 +19,10 @@ GLuint vbo2 = 0;
 
 int main(int argc, char *argv[])
 {
+	//Forward compatibility from version 3.2.
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+
 	//start logs
 	Logger::restart_log("log.txt");
 	std::string log = "Starting GLFW: \n";
@@ -34,6 +38,8 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
+	
+
 	//init window with 640x480 resolution
 	GLFWwindow * window = glfwCreateWindow(640, 480, "Tutorial 1: Draw a triangle", NULL, NULL);
 
