@@ -1,6 +1,8 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
+#define GL_LOG_FILE "log.txt"
+
 #include <string>
 
 class Logger

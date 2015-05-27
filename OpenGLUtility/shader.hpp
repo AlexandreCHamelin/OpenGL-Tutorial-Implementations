@@ -6,8 +6,13 @@
 class Shader
 {
 public:
-	Shader(const char* shaderFile, GLenum shaderType);
+	Shader(std::string shaderFile, GLenum shaderType);
+	GLuint get_shader() const;
 private:
+	const std::string shaderFile_;
+	const GLuint shader_;
 
+	bool loadShaderFile() const;
+	void logShaderCompilation() const;
 };
 #endif
