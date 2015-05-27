@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1_DrawTriangle", "1_DrawTriangle\1_DrawTriangle.vcxproj", "{ED2CECB9-1553-43B8-8508-A490BBFBA0D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B598EB80-F304-463C-A769-9158B85D769F} = {B598EB80-F304-463C-A769-9158B85D769F}
+		{9F56AECC-DF39-4887-A38B-4D017B63C098} = {9F56AECC-DF39-4887-A38B-4D017B63C098}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utility", "Utility\Utility.vcxproj", "{9F56AECC-DF39-4887-A38B-4D017B63C098}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLUtility", "OpenGLUtility\OpenGLUtility.vcxproj", "{B598EB80-F304-463C-A769-9158B85D769F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,14 @@ Global
 		{9F56AECC-DF39-4887-A38B-4D017B63C098}.Release|Win32.ActiveCfg = Release|Win32
 		{9F56AECC-DF39-4887-A38B-4D017B63C098}.Release|Win32.Build.0 = Release|Win32
 		{9F56AECC-DF39-4887-A38B-4D017B63C098}.Release|x64.ActiveCfg = Release|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Debug|ARM.ActiveCfg = Debug|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Debug|Win32.Build.0 = Debug|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Debug|x64.ActiveCfg = Debug|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Release|ARM.ActiveCfg = Release|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Release|Win32.ActiveCfg = Release|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Release|Win32.Build.0 = Release|Win32
+		{B598EB80-F304-463C-A769-9158B85D769F}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

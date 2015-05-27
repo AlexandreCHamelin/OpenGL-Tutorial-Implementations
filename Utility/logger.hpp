@@ -8,6 +8,8 @@ class Logger
 public:
 	static bool restartLog(const char* logFile);
 	static bool printToLog(const char* logFile, const char* text, ...);
+private:
+	inline Logger(){};
 };
 
 #endif

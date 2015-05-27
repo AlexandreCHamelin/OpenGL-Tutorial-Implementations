@@ -1,13 +1,7 @@
 #include "main.hpp"
-
-//opengl includes
-#define GLEW_STATIC
-#include <GL/glew.h>
-#define GL_GLEXT_PROTOTYPES
-
-#include <GLFW/glfw3.h>
+#include "gl_includes.hpp"
+#include "shader.hpp"
 #include <stdio.h>
-#include "logger.hpp"
 
 void initTriangles();
 void glfwErrorCallback(int error, const char* description);
@@ -28,17 +22,6 @@ int  frameCount;
 
 int main(int argc, char *argv[])
 {
-	//Forward compatibility from version 3.2.
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_SAMPLES, 4); //Anti aliasing (4 passes)
-
-	//start logs
-	Logger::restartLog("log.txt");
-	glfwSetErrorCallback(glfwErrorCallback);
-
 	//start context
 	if (!glfwInit())
 	{
@@ -49,7 +32,18 @@ int main(int argc, char *argv[])
 	{
 		fprintf(stderr, "GLFW initialized properly.");
 	}
+
+	//Forward compatibility from version 3.2.
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES, 4); //Anti aliasing (4 passes)
 	
+	//start logs
+	Logger::restartLog("log.txt");
+	glfwSetErrorCallback(glfwErrorCallback);
+
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
