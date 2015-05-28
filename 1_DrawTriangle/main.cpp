@@ -1,6 +1,7 @@
 #include "main.hpp"
 #include "gl_includes.hpp"
 #include "shader.hpp"
+#include "shader_program.hpp"
 #include <stdio.h>
 
 void initTriangles();
@@ -91,15 +92,11 @@ int main(int argc, char *argv[])
 	Shader frag_1 = Shader("frag1.frag", GL_FRAGMENT_SHADER);
 	Shader frag_2 = Shader("frag2.frag", GL_FRAGMENT_SHADER);
 
-	GLuint shader_programme_1 = glCreateProgram();
-	glAttachShader(shader_programme_1, frag_1.get_shader());
-	glAttachShader(shader_programme_1, vertex.get_shader());
-	glLinkProgram(shader_programme_1);
+	Shader shaders_1[2] = { vertex, frag_1 };
+	Shader shaders_2[2] = { vertex, frag_2 };
 
-	GLuint shader_programme_2 = glCreateProgram();
-	glAttachShader(shader_programme_2, frag_2.get_shader());
-	glAttachShader(shader_programme_2, vertex.get_shader());
-	glLinkProgram(shader_programme_2);
+	ShaderProgram shader_programme_1 = ShaderProgram(shaders_1, VERT_FRAG);
+	ShaderProgram shader_programme_2 = ShaderProgram(shaders_2, VERT_FRAG);
 
 	while (!glfwWindowShouldClose(window)) {
 		updateFpsCounter(window);
@@ -110,13 +107,13 @@ int main(int argc, char *argv[])
 
 		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 
-		glUseProgram(shader_programme_1);
+		glUseProgram(shader_programme_1.get_program());
 		glBindVertexArray(vao_1);
 
 		// draw points 0-5 from the currently bound VAO with current in-use shader 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		glUseProgram(shader_programme_2);
+		glUseProgram(shader_programme_2.get_program());
 		glBindVertexArray(vao_2);
 
 		// draw points 0-5 from the currently bound VAO with current in-use shader 
