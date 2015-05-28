@@ -8,7 +8,8 @@
 
 Shader::Shader(std::string shaderFile, GLenum shaderType) :
 	shaderFile_(SHADERS_DIRECTORY + shaderFile),
-	shader_(glCreateShader(shaderType))
+	shader_(glCreateShader(shaderType)),
+	shader_type_(shaderType)
 {
 	if (loadShaderFile())
 	{
@@ -44,6 +45,10 @@ bool Shader::loadShaderFile() const
 GLuint Shader::get_shader() const
 {
 	return shader_;
+}
+GLuint Shader::get_shader_type() const
+{
+	return shader_type_;
 }
 
 void Shader::logShaderCompilation() const

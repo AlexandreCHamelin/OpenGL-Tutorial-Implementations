@@ -9,16 +9,16 @@ void glfwWindowSizeCallback(GLFWwindow* window, int width, int height);
 void logGlParams();
 void updateFpsCounter(GLFWwindow* window);
 
-GLuint vao1 = 0;
-GLuint vbo1 = 0;
-GLuint vao2 = 0;
-GLuint vbo2 = 0;
+GLuint vao_1 = 0;
+GLuint vbo_1 = 0;
+GLuint vao_2 = 0;
+GLuint vbo_2 = 0;
 
 int g_gl_width = 800;
 int g_gl_height = 600;
 
-double previousSeconds;
-int  frameCount;
+double previous_seconds;
+int  frame_count;
 
 int main(int argc, char *argv[])
 {
@@ -88,18 +88,18 @@ int main(int argc, char *argv[])
 	initTriangles();
 
 	Shader vertex = Shader("vertex.vert", GL_VERTEX_SHADER);
-	Shader frag1 = Shader("frag1.frag", GL_FRAGMENT_SHADER);
-	Shader frag2 = Shader("frag2.frag", GL_FRAGMENT_SHADER);
+	Shader frag_1 = Shader("frag1.frag", GL_FRAGMENT_SHADER);
+	Shader frag_2 = Shader("frag2.frag", GL_FRAGMENT_SHADER);
 
-	GLuint shader_programme1 = glCreateProgram();
-	glAttachShader(shader_programme1, frag1.get_shader());
-	glAttachShader(shader_programme1, vertex.get_shader());
-	glLinkProgram(shader_programme1);
+	GLuint shader_programme_1 = glCreateProgram();
+	glAttachShader(shader_programme_1, frag_1.get_shader());
+	glAttachShader(shader_programme_1, vertex.get_shader());
+	glLinkProgram(shader_programme_1);
 
-	GLuint shader_programme2 = glCreateProgram();
-	glAttachShader(shader_programme2, frag2.get_shader());
-	glAttachShader(shader_programme2, vertex.get_shader());
-	glLinkProgram(shader_programme2);
+	GLuint shader_programme_2 = glCreateProgram();
+	glAttachShader(shader_programme_2, frag_2.get_shader());
+	glAttachShader(shader_programme_2, vertex.get_shader());
+	glLinkProgram(shader_programme_2);
 
 	while (!glfwWindowShouldClose(window)) {
 		updateFpsCounter(window);
@@ -110,14 +110,14 @@ int main(int argc, char *argv[])
 
 		glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 
-		glUseProgram(shader_programme1);
-		glBindVertexArray(vao1);
+		glUseProgram(shader_programme_1);
+		glBindVertexArray(vao_1);
 
 		// draw points 0-5 from the currently bound VAO with current in-use shader 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		glUseProgram(shader_programme2);
-		glBindVertexArray(vao2);
+		glUseProgram(shader_programme_2);
+		glBindVertexArray(vao_2);
 
 		// draw points 0-5 from the currently bound VAO with current in-use shader 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
 void initTriangles()
 {
-	GLfloat points1[] =
+	GLfloat points_1[] =
 	{
 		0.0f, 0.0f, 0.0f,
 		0.5f, 0.0f, 0.0f,
@@ -151,33 +151,33 @@ void initTriangles()
 		0.0f, 0.0f, 0.0f
 	};
 
-	glGenBuffers(1, &vbo1);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points1), points1, GL_STATIC_DRAW);
+	glGenBuffers(1, &vbo_1);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_1);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points_1), points_1, GL_STATIC_DRAW);
 
-	glGenVertexArrays(1, &vao1);
-	glBindVertexArray(vao1);
+	glGenVertexArrays(1, &vao_1);
+	glBindVertexArray(vao_1);
 	glEnableVertexAttribArray(0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo1);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_1);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	GLfloat points2[] =
+	GLfloat points_2[] =
 	{
 		0.5f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		1.0f, 0.5f, 0.0f
 	};
 
-	glGenBuffers(1, &vbo2);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo2);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points2), points2, GL_STATIC_DRAW);
+	glGenBuffers(1, &vbo_2);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points_2), points_2, GL_STATIC_DRAW);
 
-	glGenVertexArrays(1, &vao2);
-	glBindVertexArray(vao2);
+	glGenVertexArrays(1, &vao_2);
+	glBindVertexArray(vao_2);
 	glEnableVertexAttribArray(0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo2);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_2);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 }
 
@@ -246,22 +246,22 @@ void logGlParams() {
 
 void updateFpsCounter(GLFWwindow* window)
 {
-	double currentSeconds;
-	double elapsedSeconds;
+	double current_seconds;
+	double elapsed_seconds;
 
-	currentSeconds = glfwGetTime();
-	elapsedSeconds = currentSeconds - previousSeconds;
+	current_seconds = glfwGetTime();
+	elapsed_seconds = current_seconds - previous_seconds;
 
 	/*Limit text updates to 4 per second*/
-	if (elapsedSeconds > 0.25)
+	if (elapsed_seconds > 0.25)
 	{
-		previousSeconds = currentSeconds;
+		previous_seconds = current_seconds;
 		char tmp[128];
-		double fps = (double)frameCount / elapsedSeconds;
+		double fps = (double)frame_count / elapsed_seconds;
 		sprintf_s(tmp, "Tutorial 1: Draw a triangle - fps: %.2f", fps);
 		glfwSetWindowTitle(window, tmp);
-		frameCount = 0;
+		frame_count = 0;
 	}
 
-	frameCount++;
+	frame_count++;
 }
