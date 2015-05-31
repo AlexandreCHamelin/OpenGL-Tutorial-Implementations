@@ -81,10 +81,12 @@
     <Text Include="..\..\..\Anton%27s OpenGL 4 tutorials\OpenGL-Tutorial-Implementations\OpenGLUtility\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Anton%27s OpenGL 4 tutorials\OpenGL-Tutorial-Implementations\OpenGLUtility\shader_manager.cpp" />
     <ClCompile Include="shader_program.cpp" />
     <ClCompile Include="shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Anton%27s OpenGL 4 tutorials\OpenGL-Tutorial-Implementations\OpenGLUtility\shader_manager.hpp" />
     <ClInclude Include="shader_program.hpp" />
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="gl_includes.hpp" />

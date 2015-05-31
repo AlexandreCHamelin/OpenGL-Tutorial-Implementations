@@ -27,12 +27,18 @@
     <ClInclude Include="shader_program.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Anton%27s OpenGL 4 tutorials\OpenGL-Tutorial-Implementations\OpenGLUtility\shader_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="shader_program.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Anton%27s OpenGL 4 tutorials\OpenGL-Tutorial-Implementations\OpenGLUtility\shader_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
